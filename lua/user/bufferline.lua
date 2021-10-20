@@ -123,7 +123,7 @@ M.config = function()
           {
             highlight = { guisp = "#C678DD" },
             name = "docs",
-            icon="",
+            icon = "",
             matcher = function(buf)
               local list = List { "md", "txt", "org", "norg", "wiki" }
               return list:contains(fn.fnamemodify(buf.path, ":e"))

@@ -6,7 +6,7 @@ M.config = function()
   end
 
   local lsp_installer_servers = require "nvim-lsp-installer.servers"
-  local _, requested_server = lsp_installer_servers.get_server("rust_analyzer")
+  local _, requested_server = lsp_installer_servers.get_server "rust_analyzer"
 
   local opts = {
     tools = {
