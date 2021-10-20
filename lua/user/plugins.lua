@@ -316,6 +316,15 @@ M.config = function()
       end,
       disable = not lvim.builtin.fancy_dashboard.active,
     },
+    {
+      "bfredl/nvim-ipy",
+      config = function()
+        require("user.nvim-ipy").config()
+      end,
+    },
+    {
+      "wakatime/vim-wakatime",
+    },
   }
 end
 
