@@ -330,6 +330,7 @@ M.config = function()
       run = ":UpdateRemotePlugins",
       disable = not lvim.builtin.fancy_wild_menu.active,
     },
+{ 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } },
   }
 end
 
