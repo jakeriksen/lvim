@@ -22,13 +22,15 @@ lvim.builtin.fancy_wild_menu = { active = true } -- enable/disable use wilder.nv
 lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/lua_dev
 lvim.builtin.test_runner = { active = true } -- change this to enable/disable vim-test, ultest
 lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
-lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
+lvim.builtin.sql_integration = { active = true } -- use sql integration
+lvim.builtin.neoscroll = { active = true } -- smooth scrolling
+lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
   view_method = "skim", -- change to zathura if you are on linux
   preview_exec = "/Applications/Skim.app/Contents/SharedSupport/displayline", -- change this to zathura as well
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs
 }
-lvim.builtin.notify.active = false
+lvim.builtin.notify.active = true
 lvim.lsp.automatic_servers_installation = false
 lvim.lsp.document_highlight = true
 lvim.lsp.code_lens_refresh = true

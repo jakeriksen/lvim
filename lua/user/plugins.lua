@@ -145,6 +145,9 @@ M.config = function()
       "andymass/vim-matchup",
       event = "CursorMoved",
       config = function()
+        vim.g.matchup_enabled = 1
+        vim.g.matchup_surround_enabled = 1
+        vim.g.matchup_matchparen_deferred = 1
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
       end,
     },
@@ -268,23 +271,7 @@ M.config = function()
       "akinsho/flutter-tools.nvim",
       requires = "nvim-lua/plenary.nvim",
       config = function()
-        require("flutter-tools").setup {
-          ui = { border = "rounded" },
-          debugger = { enabled = true },
-          outline = { auto_open = false },
-          decorations = {
-            statusline = { device = true, app_version = true },
-          },
-          widget_guides = { enabled = true, debug = true },
-          dev_log = { open_cmd = "tabedit" },
-          lsp = {
-            settings = {
-              showTodos = false,
-              renameFilesWithClasses = "always",
-            },
-            on_attach = require("lvim.lsp").common_on_attach,
-          },
-        }
+        require("user.flutter_tools").config()
       end,
       ft = "dart",
     },
@@ -320,8 +307,10 @@ M.config = function()
     {
       "wakatime/vim-wakatime",
       },
-    {"gelguy/wilder.nvim",
-      event = { "CursorHold", "CmdlineEnter" },
+    {
+      "gelguy/wilder.nvim",
+      -- event = { "CursorHold", "CmdlineEnter" },
+      opt = true,
       rocks = { "luarocks-fetch-gitrec", "pcre2" },
       requires = { "romgrk/fzy-lua-native" },
       config = function()
@@ -330,7 +319,30 @@ M.config = function()
       run = ":UpdateRemotePlugins",
       disable = not lvim.builtin.fancy_wild_menu.active,
     },
-{ 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } },
+    {"Saecki/crates.nvim",
+      requires = { "nvim-lua/plenary.nvim" },
+    },
+    {
+      "tpope/vim-dadbod",
+      cmd = "DB",
+      disable = not lvim.builtin.sql_integration.active,
+    },
+    {
+      "kristijanhusak/vim-dadbod-completion",
+      disable = not lvim.builtin.sql_integration.active,
+    },
+    {
+      "kristijanhusak/vim-dadbod-ui",
+      cmd = "DBUI",
+      disable = not lvim.builtin.sql_integration.active,
+    },
+    {
+      "karb94/neoscroll.nvim",
+      config = function()
+        require("neoscroll").setup()
+      end,
+      disable = not lvim.builtin.neoscroll.active,
+    },
   }
 end
 
