@@ -346,6 +346,9 @@ M.config = function()
       end,
       disable = not lvim.builtin.neoscroll.active,
     },
+    {
+      "b0o/schemastore.nvim",
+    },
   }
 end
 
