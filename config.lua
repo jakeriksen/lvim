@@ -26,8 +26,7 @@ lvim.builtin.sql_integration = { active = true } -- use sql integration
 lvim.builtin.neoscroll = { active = true } -- smooth scrolling
 lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
-  view_method = "skim", -- change to zathura if you are on linux
-  preview_exec = "/Applications/Skim.app/Contents/SharedSupport/displayline", -- change this to zathura as well
+  view_method = "zathura", -- change to zathura if you are on linux
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs
 }
 lvim.builtin.notify.active = true
