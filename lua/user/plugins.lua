@@ -91,7 +91,7 @@ M.config = function()
     },
     {
       "simrat39/symbols-outline.nvim",
-      config = function()
+      setup = function()
         require("user.symbols_outline").config()
       end,
       event = "BufReadPost",
@@ -316,7 +316,6 @@ M.config = function()
     {
       "gelguy/wilder.nvim",
       -- event = { "CursorHold", "CmdlineEnter" },
-      opt = true,
       rocks = { "luarocks-fetch-gitrec", "pcre2" },
       requires = { "romgrk/fzy-lua-native" },
       config = function()
