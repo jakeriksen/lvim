@@ -70,7 +70,7 @@ M.config = function()
       "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim",
       config = function()
-        require("todo-comments").setup()
+        require("user.todo_comments").config()
       end,
       event = "BufRead",
     },
@@ -284,6 +284,7 @@ M.config = function()
       config = function()
         vim.g.cheat_default_window_layout = "vertical_split"
       end,
+      opt = true,
       cmd = { "Cheat", "CheatWithoutComments", "CheatList", "CheatListWithoutComments" },
       disable = not lvim.builtin.cheat.active,
     },
@@ -292,6 +293,8 @@ M.config = function()
       config = function()
         require("user.neoclip").config()
       end,
+      opt = true,
+      keys = "<leader>y",
       requires = { "tami5/sqlite.lua", module = "sqlite" },
     },
     {
@@ -327,6 +330,7 @@ M.config = function()
     },
     {
       "tpope/vim-dadbod",
+      opt = true,
       cmd = "DB",
       disable = not lvim.builtin.sql_integration.active,
     },
@@ -336,6 +340,7 @@ M.config = function()
     },
     {
       "kristijanhusak/vim-dadbod-ui",
+      opt = true,
       cmd = "DBUI",
       disable = not lvim.builtin.sql_integration.active,
     },
@@ -344,10 +349,27 @@ M.config = function()
       config = function()
         require("neoscroll").setup()
       end,
+      event = "BufRead",
       disable = not lvim.builtin.neoscroll.active,
     },
     {
       "b0o/schemastore.nvim",
+    },
+    {
+      "nathom/filetype.nvim", -- Replace default filetype.vim which is slower
+      config = function()
+        require("filetype").setup {
+          overrides = {
+            literal = {
+              ["kitty.conf"] = "kitty",
+              [".gitignore"] = "conf",
+              [".eslintrc"] = "json",
+              [".stylelintrc"] = "json",
+              [".htmlhintrc"] = "json",
+            },
+          },
+        }
+      end,
     },
   }
 end

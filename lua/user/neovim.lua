@@ -1,9 +1,35 @@
 local M = {}
 
 M.config = function()
+  local disabled_plugins = {
+    "2html_plugin",
+    "filetypes", -- nathom/filetype.nvim
+    "getscript",
+    "getscriptPlugin",
+    "gzip",
+    "logipat",
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "matchit",
+    "tar",
+    "tarPlugin",
+    "rrhelper",
+    "spellfile_plugin",
+    "vimball",
+    "vimballPlugin",
+    "zip",
+    "zipPlugin",
+  }
+  for _, plugin in pairs(disabled_plugins) do
+    vim.g["loaded_" .. plugin] = 1
+  end
+  vim.g.did_load_filetypes = 1
+  vim.opt.shada = "!,'0,f0,<50,s10,h"
   vim.opt.relativenumber = true
   vim.opt.wrap = true
-  -- vim.opt.termguicolors = true
+  vim.opt.termguicolors = true
   -- vim.opt.updatetime = 100
   -- vim.opt.timeout = true
   vim.opt.timeoutlen = 200
