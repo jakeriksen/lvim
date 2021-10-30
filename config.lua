@@ -9,7 +9,7 @@ require("user.neovim").config()
 
 -- Customization
 -- =========================================
-lvim.builtin.sell_your_soul_to_devil = true -- if you want microsoft to abuse your soul
+lvim.builtin.sell_your_soul_to_devil = false -- if you want microsoft to abuse your soul
 lvim.builtin.lastplace = { active = false } -- change to false if you are jumping to future
 lvim.builtin.tabnine = { active = true } -- change to false if you don't like tabnine
 lvim.builtin.persistence = { active = true } -- change to false if you don't want persistence
@@ -26,6 +26,8 @@ lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = true } -- use sql integration
 lvim.builtin.neoscroll = { active = true } -- smooth scrolling
 lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
+lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
+lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
   view_method = "zathura", -- change to zathura if you are on linux
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs

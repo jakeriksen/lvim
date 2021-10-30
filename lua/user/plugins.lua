@@ -328,19 +328,25 @@ M.config = function()
       requires = { "nvim-lua/plenary.nvim" },
     },
     {
-      "tpope/vim-dadbod",
-      opt = true,
-      cmd = "DB",
-      disable = not lvim.builtin.sql_integration.active,
-    },
-    {
       "kristijanhusak/vim-dadbod-completion",
       disable = not lvim.builtin.sql_integration.active,
     },
     {
       "kristijanhusak/vim-dadbod-ui",
+      cmd = {
+        "DBUIToggle",
+        "DBUIAddConnection",
+        "DBUI",
+        "DBUIFindBuffer",
+        "DBUIRenameBuffer",
+      },
+      requires = {
+        {
+          "tpope/vim-dadbod",
+          opt = true,
+        },
+      },
       opt = true,
-      cmd = "DBUI",
       disable = not lvim.builtin.sql_integration.active,
     },
     {
@@ -373,6 +379,15 @@ M.config = function()
     {
       "github/copilot.vim",
       disable = not lvim.builtin.sell_your_soul_to_devil,
+    },
+    {
+      "akinsho/dependency-assist.nvim",
+      branch = "refactor",
+      --- requires libyaml-dev on ubuntu or libyaml on macOS
+      rocks = { { "lyaml", server = "http://rocks.moonscript.org" } },
+      config = function()
+        require("dependency_assist").setup()
+      end,
     },
   }
 end
