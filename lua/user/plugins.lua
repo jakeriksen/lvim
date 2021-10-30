@@ -389,6 +389,7 @@ M.config = function()
         require("dependency_assist").setup()
       end,
     },
+    { "untitled-ai/jupyter_ascending.vim" }
   }
 end
 
