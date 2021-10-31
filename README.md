@@ -4,11 +4,51 @@ Do not use as is, use it as a source of inspiration.
 
 I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly 😅
 
+<img width="1903" alt="Screen Shot 2021-10-31 at 2 53 38 PM" src="https://user-images.githubusercontent.com/10992695/139580682-381c0d8f-efef-4bd3-9235-bc3c76c5feda.png">
+
+<details open>
+  <summary>
+    <strong>Table of Contents</strong>
+    <small><i>(🔎 Click to expand/collapse)</i></small>
+  </summary>
+
+<!-- vim-markdown-toc GFM -->
+
+- [Features](#features)
+- [Customization](#features)
+- [Screenshot](#screenshot)
+- [Install](#install)
+- [Prerequisites](#prerequisites)
+- [Language-Server Protocol (LSP)](#language-server-protocol-lsp)
+- [Upgrade](#upgrade)
+  - [Recommended Fonts](#recommended-fonts)
+  - [Recommended Linters](#recommended-linters)
+  - [Recommended Tools](#recommended-tools)
+- [Structure](#structure)
+- [Plugins Included](#plugins-included)
+  - [Optional Plugins](#optional-plugins)
+- [Custom Key-mappings](#custom-key-mappings)
+
+<!-- vim-markdown-toc -->
+</details>
+
+## Features
+
+- TBD
+
 ## Customization
+
+<details>
+  <summary>
+    <strong>Customization</strong>
+    <small><i>(🔎 Click to expand/collapse)</i></small>
+  </summary>
 
 - I'm on the `rolling` branch of LunarVim and i'm using `neovim 0.6 head`
 - Do not use as is, too much bloated! Also do not use on a potato PC!!
 - i have a auto command to disable syntax,etc when you open files larger than `1MB`
+- if you don't want to use `harpoon`, disable it
+  - `lvim.builtin.harpoon = { active = false }`
 - if you want to try out GitHub copilot, change the following
   - `lvim.builtin.sell_your_soul_to_devil = true`
 - I'm using a custom dashboard, use the default LunarVim one if you like it better
@@ -43,13 +83,95 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 - orgmode is using `~/shared/orgs` folder
   -->
 
-## How to use
+</details>
+
+## Install
+
+<details>
+  <summary><strong>Prerequisites</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
+
+### Prerequisites
+
+- [Neovim](neovim-install) >= v0.6.0
+
+```shell
+  brew install neovim --nightly
+```
+
+- [Rust](rust-install)
+  and telescope stuff:
+  - [ripgrep](ripgrep)
+  - [fd](fd)
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh
+cargo install ripgrep fd-find
+```
+
+- [NodeJS](nodejs-install) >= v16.13.0
+  most language servers need this
+
+```shell
+brew install node
+```
+
+</details>
 
 ```shell
 # install LunarVim
 mv ~/.config/lvim ~/.config/lvim_backup
 git clone https://github.com/abzcoding/lvim.git ~/.config/lvim
 lvim +LvimUpdate +LvimCacheReset +q
+lvim # run :PackerSync
+```
+
+<details>
+  <summary><strong>Other Stuff</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
+
+## Language-Server Protocol (LSP)
+
+To leverage LSP auto-completions and other functionalities, once you open a
+file in Neovim, run `:LspInstall <server>` to use
+[nvim-lsp-installer](lsp installer) installation feature.
+Use `Tab` to list available servers.
+
+Here are some useful LSP server installations:
+
+- `:LspInstall html cssls jsonls yamlls`
+- `:LspInstall gopls`
+- `:LspInstall pylsp`
+- `:LspInstall bashls vimls sumneko_lua`
+- `:LspInstall diagnosticls`
+- and [more](lsp installer)…
+
+## Upgrade
+
+```shell
+cd ~/.config/lvim
+git pull
+lvim # run :PackerSync
+```
+
+## Recommended Fonts
+
+- [FiraCode Nerd Font](firaCode): My preferred font
+- Any of the [Nerd Fonts]
+
+On macOS with Homebrew, choose one of the [Nerd Fonts],
+for example, here are some popular fonts:
+
+```shell
+brew tap homebrew/cask-fonts
+brew search nerd-font
+brew install --cask font-fira-code
+brew install --cask font-victor-mono-nerd-font
+brew install --cask font-iosevka-nerd-font-mono
+brew install --cask font-hack-nerd-font
+```
+
+### Recommended Linters
+
+```shell
 brew install luarocks
 luarocks install luacheck  # if you want to use luacheck
 cargo install selene  # if you want to use selene instead of luacheck
@@ -66,31 +188,27 @@ cp ~/.config/lvim/vale_config.ini ~/.vale.ini
 # if you want the latex stuff
 # brew install --cask mactex-no-gui # for mac
 # or install zathura and chktex on linux
-lvim # run :PackerSync
-```
-
-Install the language servers that you need
-
-```vim
-:LspInstall ansiblels bashls clangd cssls jdtls pyright rust_analyzer
-:LspInstall terraformls vimls jsonls dockerls cmake gopls sumneko_lua
-:LspInstall tailwindcss texlab tsserver yamlls
 ```
 
 In case you want a better tex support in mac, check
-[this](https://gist.github.com/peterhurford/75957ba9335e755013b87254ec85fab1) out
+[this](tex support) out
+
+</details>
 
 ---
 
-## What does it look like?
+## Screenshot
+
+<details>
+  <summary><strong>Screenshots</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
 <img width="1914" alt="Screen Shot 2021-10-20 at 1 09 24 PM" src="https://user-images.githubusercontent.com/10992695/138069108-4fd1b129-0b20-4bfe-bf55-81614410ea58.png">
 
-#### StatusLine
+#### BufferLine
 
 <img width="662" alt="Screen Shot 2021-10-18 at 5 44 20 PM" src="https://user-images.githubusercontent.com/10992695/137748538-33c59697-6783-43e5-bbd7-d920f91965bf.png">
 
-#### BufferLine
+#### StatusLine
 
 <img width="1912" alt="Screen Shot 2021-10-18 at 5 45 16 PM" src="https://user-images.githubusercontent.com/10992695/137748708-ce6a91e1-aec4-46ea-b119-2086897c1d0e.png">
 
@@ -166,9 +284,12 @@ _Symbols Outline_
 
 <img width="1906" alt="Screen Shot 2021-10-18 at 6 03 57 PM" src="https://user-images.githubusercontent.com/10992695/137751933-291297b4-4233-406a-88bc-68b93733048a.png">
 
----
+## </details>
 
-## Included Plugins
+## Plugins Included
+
+<details>
+  <summary><strong>Plugins</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
 - [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
@@ -215,3 +336,123 @@ _Symbols Outline_
 - [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
 - [Neoscroll](https://github.com/karb94/neoscroll.nvim)
 - [Copilot](https://github.com/github/copilot.vim)
+- [Harpoon](https://github.com/ThePrimeagen/harpoon)
+
+</details>
+
+## Structure
+
+<details>
+  <summary><strong>Structure</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
+
+- [ftdetect/](./ftdetect) - Let neovim identify custom filetypes
+- [ftplugin/](./ftplugin) - Language specific custom settings
+- [lsp-settings](./lsp-settings) - Custom lang server settings
+- [lua/](./lua) - Lua plugin configurations
+  - [user/](./lua/user) - User specific settings
+    - [providers/](./lua/user/providers) - Custom installation and configuration of language servers
+    - [autocommands.lua](./lua/user/autocommands.lua) - user defined autocommands
+    - [builtin.lua](./lua/user/builtin.lua) - change internal lunarvim settings
+    - [keybindings.lua](./lua/user/keybindings.lua) - user defined keybindings
+    - [null_ls.lua](./lua/user/null_ls.lua) - list of configured linters/formatters
+    - [plugins.lua](./lua/user/plugins.lua) - list of installed plugins
+    - [theme.lua](./lua/user/theme.lua) - customized themes
+- [config.lua](./config.lua) - Main customization point for settings
+- [snippets/](./snippets) - Personal code snippets
+- [vimscript/](./vimscript) - wilder settings
+
+</details>
+
+## Custom Key-mappings
+
+Note that,
+
+- **Leader** key set as <kbd>Space</kbd>
+
+<details>
+  <summary>
+    <strong>Key-mappings</strong>
+    <small><i>(🔎 Click to expand/collapse)</i></small>
+  </summary>
+
+<center>Modes: 𝐍=normal 𝐕=visual 𝐒=select 𝐈=insert 𝐂=command</center>
+
+### UI
+
+| Key                           | Mode | Action           | Plugin or Mapping              |
+| ----------------------------- | :--: | ---------------- | ------------------------------ |
+| <kbd>Space</kbd>+<kbd>e</kbd> |  𝐍   | Open file tree   | <small>NvimTree</small>        |
+| <kbd>Space</kbd>+<kbd>o</kbd> |  𝐍   | Open symbols     | <small>Symbols-outline</small> |
+| <kbd>Space</kbd>+<kbd>f</kbd> |  𝐍   | Open file finder | <small>Telescope</small>       |
+| <kbd>Space</kbd>+<kbd>h</kbd> |  𝐍   | Remove highlight | <small>`nohlsearch<`</small>   |
+| <kbd>Space</kbd>+<kbd>/</kbd> |  𝐍   | Toggle comment   | <small>Comment.nvim</small>    |
+| <kbd>Space</kbd>+<kbd>?</kbd> |  𝐍   | Open cheats      | <small>cheat.sh</small>        |
+| <kbd>Space</kbd>+<kbd>z</kbd> |  𝐍   | Zen mode         | <small>zen-mode.nvim</small>   |
+| <kbd>Space</kbd>+<kbd>P</kbd> |  𝐍   | Projects         | <small>project.nvim</small>    |
+
+### Plugin: Gitsigns
+
+| Key                                                                                      | Mode | Action                 |
+| ---------------------------------------------------------------------------------------- | :--: | ---------------------- |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>j</kbd> or <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>k</kbd> |  𝐍   | Next/previous Git hunk |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>p</kbd>                                               |  𝐍   | Preview hunk           |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>l</kbd>                                               |  𝐍   | Blame line             |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>s</kbd>                                               | 𝐍 𝐕  | Stage hunk             |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>u</kbd>                                               |  𝐍   | Undo stage hunk        |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>R</kbd>                                               | 𝐍 𝐕  | Reset hunk             |
+
+### Plugin: LazyGit
+
+| Key                                        | Mode | Action           |
+| ------------------------------------------ | :--: | ---------------- |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>g</kbd> |  𝐍   | Open lazy git UI |
+
+### Plugin: Telescope
+
+| Key                                        | Mode | Action                   |
+| ------------------------------------------ | :--: | ------------------------ |
+| <kbd>Space</kbd>+<kbd>f</kbd>              |  𝐍   | File search              |
+| <kbd>Space</kbd>+<kbd>P</kbd>              |  𝐍   | Project search           |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>s</kbd> |  𝐍   | Grep search              |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>l</kbd> |  𝐍   | Reopen last search       |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Buffers                  |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>c</kbd> |  𝐍   | Colorschemes             |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>C</kbd> |  𝐍   | Command history          |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>h</kbd> |  𝐍   | Find help                |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>k</kbd> |  𝐍   | Keymap search            |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>M</kbd> |  𝐍   | Man Pages search         |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>r</kbd> |  𝐍   | Register search          |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep string under cursor |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>b</kbd> |  𝐍   | Builtin search           |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>f</kbd> |  𝐍   | Current buffer search    |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>g</kbd> |  𝐍   | Git files search         |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins        |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>p</kbd> |  𝐍   | Project search           |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins        |
+| **Within _Telescope_ window**              |      |
+| <kbd>Escape</kbd>                          |  𝐈   | Exit telescope           |
+| <kbd>Ctrl</kbd>+<kbd>v</kbd>               |  𝐍   | Open in a vertical split |
+| <kbd>Ctrl</kbd>+<kbd>s</kbd>               |  𝐍   | Open in a split          |
+
+### Plugin: LSP
+
+| Key                                                                                      | Mode | Action                              |
+| ---------------------------------------------------------------------------------------- | :--: | ----------------------------------- |
+| <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    |  𝐈   | Navigate completion-menu            |
+| <kbd>Enter</kbd>                                                                         |  𝐈   | Select completion or expand snippet |
+| <kbd>Up</kbd>or <kbd>Down</kbd>                                                          |  𝐈   | Movement in completion pop-up       |
+| <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>j</kbd> or <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>k</kbd> |  𝐍   | Next/previous LSP diagnostic        |
+| <kbd>Ctrl</kbd>+<kbd>e</kbd>                                                             |  𝐈   | Close pop-up                        |
+| <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    | 𝐈 𝐒  | Navigate snippet placeholders       |
+
+</details>
+
+[firacode]: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode/Retina
+[nerd fonts]: https://www.nerdfonts.com
+[neovim install]: https://github.com/neovim/neovim/wiki/Installing-Neovim
+[rust install]: https://www.rust-lang.org/tools/install
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[fd]: https://github.com/sharkdp/fd
+[nodejs install]: https://nodejs.org/en/download/package-manager/#macos
+[lsp installer]: https://github.com/williamboman/nvim-lsp-installer#available-lsps
+[tex support]: https://gist.github.com/peterhurford/75957ba9335e755013b87254ec85fab1
