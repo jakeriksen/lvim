@@ -35,7 +35,7 @@ lvim.builtin.latex = {
 }
 lvim.builtin.notify.active = true
 lvim.lsp.automatic_servers_installation = true
-lvim.lsp.document_highlight = true
+lvim.lsp.document_highlight = false
 lvim.lsp.code_lens_refresh = true
 require("user.builtin").config()
 
@@ -75,3 +75,5 @@ require("user.autocommands").config()
 -- Additional keybindings
 -- =========================================
 require("user.keybindings").config()
+require'lspconfig'.julials.setup{}
+
