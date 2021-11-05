@@ -27,13 +27,10 @@ lvim.builtin.test_runner = { active = true } -- change this to enable/disable vi
 lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = true } -- use sql integration
 lvim.builtin.neoscroll = { active = true } -- smooth scrolling
-<<<<<<< HEAD
 lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
 lvim.builtin.nonumber_unfocus = true -- diffrentiate between focused and non focused windows
-=======
 lvim.builtin.neoclip = { active = true, enable_persistant_history =false }
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
->>>>>>> upstream/main
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
 lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
