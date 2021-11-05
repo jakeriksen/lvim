@@ -27,9 +27,15 @@ lvim.builtin.test_runner = { active = true } -- change this to enable/disable vi
 lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = true } -- use sql integration
 lvim.builtin.neoscroll = { active = true } -- smooth scrolling
+<<<<<<< HEAD
 lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
 lvim.builtin.nonumber_unfocus = true -- diffrentiate between focused and non focused windows
+=======
+lvim.builtin.neoclip = { active = true, enable_persistant_history =false }
+lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
+>>>>>>> upstream/main
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
+lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
   view_method = "zathura", -- change to zathura if you are on linux
@@ -37,7 +43,7 @@ lvim.builtin.latex = {
 }
 lvim.builtin.notify.active = true
 lvim.lsp.automatic_servers_installation = true
-lvim.lsp.document_highlight = true
+lvim.lsp.document_highlight = false
 lvim.lsp.code_lens_refresh = true
 require("user.builtin").config()
 
@@ -77,3 +83,5 @@ require("user.autocommands").config()
 -- Additional keybindings
 -- =========================================
 require("user.keybindings").config()
+require'lspconfig'.julials.setup{}
+

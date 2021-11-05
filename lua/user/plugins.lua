@@ -1,6 +1,10 @@
 local M = {}
 
 M.config = function()
+  local neoclip_req = { "tami5/sqlite.lua", module = "sqlite" }
+  if lvim.builtin.neoclip.enable_persistant_history == false then
+    neoclip_req = {}
+  end
   lvim.plugins = {
     {
       "abzcoding/zephyr-nvim",
@@ -248,6 +252,7 @@ M.config = function()
         "typescriptreact",
         "typescript.tsx",
       },
+      opt = true,
       before = "williamboman/nvim-lsp-installer",
     },
     {
@@ -268,6 +273,8 @@ M.config = function()
       wants = "vim-test",
       requires = { "vim-test/vim-test" },
       run = ":UpdateRemotePlugins",
+      opt = true,
+      event = { "BufEnter *_test.*,*_spec.*" },
       disable = not lvim.builtin.test_runner.active,
     },
     {
@@ -286,6 +293,7 @@ M.config = function()
       end,
       opt = true,
       cmd = { "Cheat", "CheatWithoutComments", "CheatList", "CheatListWithoutComments" },
+      keys = "<leader>?",
       disable = not lvim.builtin.cheat.active,
     },
     {
@@ -295,7 +303,8 @@ M.config = function()
       end,
       opt = true,
       keys = "<leader>y",
-      requires = { "tami5/sqlite.lua", module = "sqlite" },
+      requires = neoclip_req,
+      disable = not lvim.builtin.neoclip.active,
     },
     {
       "goolord/alpha-nvim",
@@ -383,6 +392,7 @@ M.config = function()
     },
     {
       "sindrets/diffview.nvim",
+      opt = true,
       cmd = { "DiffviewOpen", "DiffviewFileHistory" },
       module = "diffview",
       keys = "<leader>gd",
@@ -399,6 +409,35 @@ M.config = function()
         }
       end,
       disable = not lvim.builtin.fancy_diff.active,
+    },
+    {
+      "chipsenkbeil/distant.nvim",
+      opt = true,
+      run = { "DistantInstall" },
+      cmd = { "DistantLaunch", "DistantRun" },
+      config = function()
+        require("distant").setup {
+          ["*"] = vim.tbl_extend(
+            "force",
+            require("distant.settings").chip_default(),
+            { mode = "ssh" } -- use SSH mode by default
+          ),
+        }
+      end,
+      disable = not lvim.builtin.remote_dev.active,
+    },
+    {
+      "nathom/filetype.nvim",
+      config = function()
+        require("filetype").setup {
+          overrides = {
+            literal = {
+              ["kitty.conf"] = "kitty",
+              [".gitignore"] = "conf",
+            },
+          },
+        }
+      end,
     },
   }
 end
