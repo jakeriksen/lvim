@@ -10,6 +10,14 @@ M.set_terminal_keymaps = function()
   vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
 end
 
+M.set_hop_keymaps = function()
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", opts)
+  vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", opts)
+  vim.api.nvim_set_keymap("n", "f", ":HopChar1LineAC<cr>", opts)
+  vim.api.nvim_set_keymap("n", "F", ":HopChar1LineBC<cr>", opts)
+end
+
 M.config = function()
   -- Additional keybindings
   -- =========================================
@@ -95,6 +103,9 @@ M.config = function()
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
     lvim.builtin.which_key.mappings["dU"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" }
   end
+  if lvim.builtin.fancy_diff.active then
+    lvim.builtin.which_key.mappings["gd"] = { "<cmd>DiffviewOpen<cr>", "diffview: diff HEAD" }
+  end
   if lvim.builtin.cheat.active then
     lvim.builtin.which_key.mappings["?"] = { "<cmd>Cheat<CR>", "Cheat.sh" }
   end
@@ -120,6 +131,9 @@ M.config = function()
       "<cmd>lua vim.diagnostic.goto_prev({float = {border = 'rounded', focusable = false, source = 'always'}})<cr>",
       "Prev Diagnostic",
     }
+  end
+  if lvim.builtin.fancy_rename then
+    lvim.builtin.which_key.mappings["l"]["r"] = { "<cmd>lua require('user.builtin').lsp_rename()<cr>", "Rename" }
   end
   lvim.builtin.which_key.mappings["l"]["f"] = {
     "<cmd>lua vim.lsp.buf.formatting_seq_sync()<cr>",
