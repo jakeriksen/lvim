@@ -6,6 +6,7 @@ lvim.colorscheme = "pablo"
 lvim.debug = false
 lvim.log.level = "warn"
 require("user.neovim").config()
+require("user.theme").selector() -- you can change the time of colorschemes here
 
 -- Customization
 -- =========================================
@@ -28,12 +29,13 @@ lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = true } -- use sql integration
 lvim.builtin.neoscroll = { active = true } -- smooth scrolling
 lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
-lvim.builtin.nonumber_unfocus = true -- diffrentiate between focused and non focused windows
 lvim.builtin.neoclip = { active = true, enable_persistant_history =false }
+lvim.builtin.remote_dev = { active = true } -- enable/disable remote development
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
-lvim.builtin.remote_dev = { active = true } -- enable/disable remote development
-lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
+lvim.builtin.nvim_web_devicons = { active = false }
+
+
 lvim.builtin.latex = {
   view_method = "zathura", -- change to zathura if you are on linux
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs

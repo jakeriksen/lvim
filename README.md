@@ -4,7 +4,7 @@ Do not use as is, use it as a source of inspiration.
 
 I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly 😅
 
-<img width="1903" alt="Screen Shot 2021-10-31 at 2 53 38 PM" src="https://user-images.githubusercontent.com/10992695/139580682-381c0d8f-efef-4bd3-9235-bc3c76c5feda.png">
+<img width="1911" alt="Screen Shot 2021-11-08 at 2 19 27 PM" src="https://user-images.githubusercontent.com/10992695/140749733-13085cb2-90fd-4d09-8974-3226795864f8.png">
 
 <details open>
   <summary>
@@ -15,6 +15,7 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 <!-- vim-markdown-toc GFM -->
 
 - [Features](#features)
+- [Theme](#theme)
 - [Customization](#features)
 - [Screenshot](#screenshot)
 - [Install](#install)
@@ -42,9 +43,19 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 <!-- vim-markdown-toc -->
 </details>
 
-## Features
+## Theme
 
-- TBD
+Themes are automatically changed based on time of the day:
+
+| Theme                                                                              |     Time of the day      |
+| ---------------------------------------------------------------------------------- | :----------------------: |
+| [zephyr](https://github.com/abzcoding/zephyr-nvim)                                 |        [5am, 8am)        |
+| [catppuccino](https://github.com/Pocco81/Catppuccino.nvim)                         |       [8am, 11am)        |
+| [tokyonight](https://github.com/folke/tokyonight)                                  | [12am, 5am), [11am, 5pm) |
+| [doom-one](https://github.com/abzcoding/doom-one.nvim/tree/feat/nvim-cmp-floating) |        [5pm, 9pm)        |
+| onedarker                                                                          |      [9pm, 11:59pm]      |
+
+You can change this in [theme.lua](./lua/user/theme.lua)
 
 ## Customization
 
@@ -332,6 +343,7 @@ _Symbols Outline_
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Dependency-assist.nvim](https://github.com/akinsho/dependency-assist.nvim)
+- [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
 
 ### Optional Plugins
 
@@ -469,7 +481,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>k</kbd> |  𝐍   | Keymap search            |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>M</kbd> |  𝐍   | Man Pages search         |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>r</kbd> |  𝐍   | Register search          |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep string under cursor |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐕   | Grep string under cursor |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep raw                 |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>b</kbd> |  𝐍   | Builtin search           |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>f</kbd> |  𝐍   | Current buffer search    |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>g</kbd> |  𝐍   | Git files search         |

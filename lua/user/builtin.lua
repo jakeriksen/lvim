@@ -24,6 +24,7 @@ M.config = function()
     { name = "emoji" },
     { name = "treesitter" },
     { name = "crates" },
+    { name = "orgmode" },
   }
   lvim.builtin.cmp.documentation.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
   lvim.builtin.cmp.experimental = {
@@ -107,7 +108,8 @@ M.config = function()
   -- =========================================
   lvim.builtin.treesitter.context_commentstring.enable = true
   lvim.builtin.treesitter.ensure_installed = "maintained"
-  lvim.builtin.treesitter.highlight.disable = {}
+  lvim.builtin.treesitter.highlight.disable = { "org" }
+  lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
   lvim.builtin.treesitter.ignore_install = { "haskell" }
   lvim.builtin.treesitter.incremental_selection = {
     enable = true,
@@ -144,6 +146,16 @@ M.config = function()
         files = { "src/parser.c", "src/scanner.cc" },
       },
     }
+    if lvim.builtin.orgmode.active then
+      parser_config.org = {
+        install_info = {
+          url = "https://github.com/milisims/tree-sitter-org",
+          revision = "main",
+          files = { "src/parser.c", "src/scanner.cc" },
+        },
+        filetype = "org",
+      }
+    end
   end
 
   -- Telescope
@@ -235,11 +247,6 @@ M.config = function()
 
   -- ETC
   -- =========================================
-  local _time = os.date "*t"
-  if _time.hour >= 21 and _time.hour <= 24 then
-    lvim.colorscheme = "onedarker"
-  end
-
   -- override lsp rename handler
   if lvim.builtin.fancy_rename then
     vim.lsp.handlers["textDocument/rename"] = function(err, result)

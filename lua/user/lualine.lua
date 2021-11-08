@@ -157,22 +157,11 @@ local default_colors = {
 }
 
 M.config = function()
-  local theme = require "user.theme"
-
-  local colors
-  local _time = os.date "*t"
-  if (_time.hour >= 0 and _time.hour < 5) or (_time.hour >= 11 and _time.hour < 17) then
-    colors = theme.colors.tokyonight_colors
-  elseif _time.hour >= 5 and _time.hour < 8 then
-    colors = theme.colors.zephyr_colors
-  elseif _time.hour >= 8 and _time.hour < 11 then
-    colors = theme.colors.catppuccino_colors
-  elseif _time.hour >= 21 and _time.hour <= 24 then
-    colors = theme.colors.onedarker_colors
-  elseif _time.hour >= 17 and _time.hour < 21 then
-    colors = theme.colors.doom_one_colors
-  else
-    colors = default_colors
+  local colors = default_colors
+  for _, colorscheme in ipairs(lvim.builtin.themes) do
+    if colorscheme.condition() then
+      colors = colorscheme.colors
+    end
   end
   -- Color table for highlights
   local mode_color = {
@@ -325,7 +314,29 @@ M.config = function()
   ins_left {
     function()
       vim.api.nvim_command("hi! LualineFileIconColor guifg=" .. get_file_icon_color() .. " guibg=" .. colors.bg)
-      return get_file_icon()
+      local winnr = vim.api.nvim_win_get_number(vim.api.nvim_get_current_win())
+      local win = " "
+      if winnr == 2 then
+        win = " "
+      elseif winnr == 3 then
+        win = " "
+      elseif winnr == 4 then
+        win = " "
+      elseif winnr == 5 then
+        win = " "
+      elseif winnr == 6 then
+        win = " "
+      elseif winnr == 7 then
+        win = " "
+      elseif winnr == 8 then
+        win = " "
+      elseif winnr == 9 then
+        win = " "
+      elseif winnr > 9 then
+        win = " "
+      end
+      return win .. " " .. get_file_icon()
+      -- return get_file_icon()
     end,
     padding = { left = 2, right = 0 },
     cond = conditions.buffer_not_empty,
@@ -333,7 +344,10 @@ M.config = function()
     gui = "bold",
   }
   ins_left {
-    "filename",
+    function()
+      local fname = vim.fn.expand "%:t"
+      return fname .. "%{&readonly?'  ':''}" .. "%{&modified?'  ':''}"
+    end,
     cond = conditions.buffer_not_empty,
     padding = { left = 1, right = 1 },
     color = { fg = colors.fg, gui = "bold" },
