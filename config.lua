@@ -1,6 +1,6 @@
 -- Neovim
 -- =========================================
-lvim.format_on_save = false
+lvim.format_on_save = true
 lvim.leader = " "
 lvim.colorscheme = "pablo"
 lvim.debug = false
