@@ -47,19 +47,34 @@ M.config = function()
     ["vim-dadbod-completion"] = "𝓐",
   }
   if lvim.builtin.sell_your_soul_to_devil then
-    vim.g.copilot_no_tab_map = true
-    vim.g.copilot_assume_mapped = true
-    vim.g.copilot_tab_fallback = ""
+    lvim.keys.insert_mode["<c-h>"] = { [[copilot#Accept("\<CR>")]], { expr = true, script = true } }
     local cmp = require "cmp"
-    lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
-      cmp.mapping.abort()
-      local copilot_keys = vim.fn["copilot#Accept"]()
-      if copilot_keys ~= "" then
-        vim.api.nvim_feedkeys(copilot_keys, "i", true)
-      else
-        fallback()
-      end
+    lvim.builtin.cmp.mapping["<Tab>"] = cmp.mapping(M.tab, { "i", "c" })
+    lvim.builtin.cmp.mapping["<S-Tab>"] = cmp.mapping(M.shift_tab, { "i", "c" })
+  end
+
+  -- Comment
+  -- =========================================
+  -- integrate with nvim-ts-context-commentstring
+  lvim.builtin.comment.pre_hook = function(ctx)
+    if not vim.tbl_contains({ "typescript", "typescriptreact" }, vim.bo.ft) then
+      return
     end
+
+    local comment_utils = require "Comment.utils"
+    local type = ctx.ctype == comment_utils.ctype.line and "__default" or "__multiline"
+
+    local location
+    if ctx.ctype == comment_utils.ctype.block then
+      location = require("ts_context_commentstring.utils").get_cursor_location()
+    elseif ctx.cmotion == comment_utils.cmotion.v or ctx.cmotion == comment_utils.cmotion.V then
+      location = require("ts_context_commentstring.utils").get_visual_start_location()
+    end
+
+    return require("ts_context_commentstring.internal").calculate_commentstring {
+      key = type,
+      location = location,
+    }
   end
 
   -- Dashboard
@@ -211,6 +226,9 @@ M.config = function()
     end,
     find_command = { "fd", "--type=file", "--hidden", "--smart-case" },
   }
+  lvim.builtin.telescope.on_config_done = function(telescope)
+    telescope.load_extension "file_create"
+  end
 
   -- Terminal
   -- =========================================
@@ -314,6 +332,49 @@ function M.lsp_rename()
     "<cmd>stopinsert | lua require('user.builtin').rename(" .. name .. "," .. win .. ")<CR>",
     opts
   )
+end
+
+function M.tab(fallback)
+  local methods = require("lvim.core.cmp").methods
+  local cmp = require "cmp"
+  local luasnip = require "luasnip"
+  local copilot_keys = vim.fn["copilot#Accept"]()
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif vim.api.nvim_get_mode().mode == "c" then
+    fallback()
+  elseif copilot_keys ~= "" then -- prioritise copilot over snippets
+    -- Copilot keys do not need to be wrapped in termcodes
+    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  elseif luasnip.expandable() then
+    luasnip.expand()
+  elseif methods.jumpable() then
+    luasnip.jump(1)
+  elseif methods.check_backspace() then
+    fallback()
+  else
+    methods.feedkeys("<Plug>(Tabout)", "")
+  end
+end
+
+function M.shift_tab(fallback)
+  local methods = require("lvim.core.cmp").methods
+  local luasnip = require "luasnip"
+  local cmp = require "cmp"
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif vim.api.nvim_get_mode().mode == "c" then
+    fallback()
+  elseif methods.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if copilot_keys ~= "" then
+      methods.feedkeys(copilot_keys, "i")
+    else
+      methods.feedkeys("<Plug>(Tabout)", "")
+    end
+  end
 end
 
 return M

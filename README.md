@@ -39,6 +39,7 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
   - [Plugin: Neogen](#plugin-neogen)
   - [Plugin: Persistence](#plugin-persistence)
   - [Plugin: Bufferline](#plugin-bufferline)
+  - [Plugin: Trouble](#plugin-trouble)
 
 <!-- vim-markdown-toc -->
 </details>
@@ -50,7 +51,7 @@ Themes are automatically changed based on time of the day:
 | Theme                                                                              |     Time of the day      |
 | ---------------------------------------------------------------------------------- | :----------------------: |
 | [zephyr](https://github.com/abzcoding/zephyr-nvim)                                 |        [5am, 8am)        |
-| [catppuccino](https://github.com/Pocco81/Catppuccino.nvim)                         |       [8am, 11am)        |
+| [rose-pine](https://github.com/rose-pine/neovim)                                   |       [8am, 11am)        |
 | [tokyonight](https://github.com/folke/tokyonight)                                  | [12am, 5am), [11am, 5pm) |
 | [doom-one](https://github.com/abzcoding/doom-one.nvim/tree/feat/nvim-cmp-floating) |        [5pm, 9pm)        |
 | onedarker                                                                          |      [9pm, 11:59pm]      |
@@ -320,7 +321,7 @@ _Symbols Outline_
 
 - [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
-- [Catppuccino Theme](https://github.com/Pocco81/Catppuccino.nvim)
+- [Rose Pine Theme](https://github.com/rose-pine/neovim)
 - [Zephyr Theme](https://github.com/abzcoding/zephyr-nvim)
 - [LSP Signature](https://github.com/ray-x/lsp_signature.nvim/)
 - [Todo Comments](https://github.com/folke/todo-comments.nvim)
@@ -365,7 +366,11 @@ _Symbols Outline_
 - [Neoscroll](https://github.com/karb94/neoscroll.nvim)
 - [Copilot](https://github.com/github/copilot.vim)
 - [Harpoon](https://github.com/ThePrimeagen/harpoon)
-- [renamer](https://github.com/filipdutescu/renamer.nvim)
+- [Renamer](https://github.com/filipdutescu/renamer.nvim)
+- [Floatline](https://github.com/windwp/floatline.nvim)
+- [Stabilize](https://github.com/luukvbaal/stabilize.nvim)
+- [vim-log-highlighting](https://github.com/mtdl9/vim-log-highlighting)
+- [nvim-cursorline](https://github.com/yamatsum/nvim-cursorline)
 
 </details>
 
@@ -374,12 +379,17 @@ _Symbols Outline_
 <details>
   <summary><strong>Structure</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
+- [after/](./after) - Stuff that happens after
+  - [ftplugin/](./after/ftplugin) - Language specific settings
+  - [syntax/](./after/syntax) - Custom syntax for languages
 - [ftdetect/](./ftdetect) - Let neovim identify custom filetypes
 - [ftplugin/](./ftplugin) - Language specific custom settings
 - [lsp-settings](./lsp-settings) - Custom lang server settings
 - [lua/](./lua) - Lua plugin configurations
+  - [lvim/](./lua/lvim) - Custom provider settings
+    - [providers/](./lua/lvim/lsp/providers) - Custom installation and configuration of language servers
+  - [telescope/](./lua/telescope/_extensions) - Telescope extensions
   - [user/](./lua/user) - User specific settings
-    - [providers/](./lua/user/providers) - Custom installation and configuration of language servers
     - [autocommands.lua](./lua/user/autocommands.lua) - user defined autocommands
     - [builtin.lua](./lua/user/builtin.lua) - change internal lunarvim settings
     - [keybindings.lua](./lua/user/keybindings.lua) - user defined keybindings
@@ -422,15 +432,15 @@ Note that,
 
 ### Motion
 
-| Key                          | Mode | Action                    | Plugin or Mapping             |
-| ---------------------------- | :--: | ------------------------- | ----------------------------- |
-| <kbd>f</kbd>                 |  𝐍   | find next chacharacter    | <small>HopChar1LineAC</small> |
-| <kbd>F</kbd>                 |  𝐍   | find prprevious character | <small>HopChar1LineBC</small> |
-| <kbd>s</kbd>                 |  𝐍   | find chacharacter         | <small>HopChar2</small>       |
-| <kbd>F</kbd>                 |  𝐍   | find word                 | <small>HopWord</small>        |
-| <kbd>Alt</kbd>+<kbd>a</kbd>  |  𝐈   | select all                | <small>ggVG</small>           |
-| <kbd>Alt</kbd>+<kbd>a</kbd>  |  𝐍   | increment number          | <small>C-A</small>            |
-| <kbd>Alt</kbd>+<kbd>x</kbd>  |  𝐍   | decrement number          | <small>C-X</small>            |
+| Key                         | Mode | Action                    | Plugin or Mapping             |
+| --------------------------- | :--: | ------------------------- | ----------------------------- |
+| <kbd>f</kbd>                |  𝐍   | find next chacharacter    | <small>HopChar1LineAC</small> |
+| <kbd>F</kbd>                |  𝐍   | find prprevious character | <small>HopChar1LineBC</small> |
+| <kbd>s</kbd>                |  𝐍   | find chacharacter         | <small>HopChar2</small>       |
+| <kbd>F</kbd>                |  𝐍   | find word                 | <small>HopWord</small>        |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐈   | select all                | <small>ggVG</small>           |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐍   | increment number          | <small>C-A</small>            |
+| <kbd>Alt</kbd>+<kbd>x</kbd> |  𝐍   | decrement number          | <small>C-X</small>            |
 
 ### LSP
 
@@ -439,6 +449,8 @@ Note that,
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    |  𝐈   | Navigate completion-menu            |
 | <kbd>Enter</kbd>                                                                         |  𝐈   | Select completion or expand snippet |
 | <kbd>Up</kbd>or <kbd>Down</kbd>                                                          |  𝐈   | Movement in completion pop-up       |
+| <kbd>]</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Next diagnostic                     |
+| <kbd>[</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Previous diagnostic                 |
 | <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>j</kbd> or <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>k</kbd> |  𝐍   | Next/previous LSP diagnostic        |
 | <kbd>Ctrl</kbd>+<kbd>e</kbd>                                                             |  𝐈   | Close pop-up                        |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    | 𝐈 𝐒  | Navigate snippet placeholders       |
@@ -531,6 +543,16 @@ Note that,
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>b</kbd> |  𝐍   | toggle buffer groups |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | pick buffer          |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>1</kbd> |  𝐍   | goto buffer 1        |
+
+### Plugin: Trouble
+
+| Key                                        | Mode | Action                |
+| ------------------------------------------ | :--: | --------------------- |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>d</kbd> |  𝐍   | diagnostics           |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | definitions           |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>r</kbd> |  𝐍   | references            |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>t</kbd> |  𝐍   | todo                  |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>w</kbd> |  𝐍   | workspace diagnostics |
 
 </details>
 
