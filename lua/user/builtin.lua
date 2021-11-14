@@ -24,6 +24,7 @@ M.config = function()
     { name = "emoji" },
     { name = "treesitter" },
     { name = "crates" },
+    { name = "orgmode" },
   }
   lvim.builtin.cmp.documentation.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
   lvim.builtin.cmp.experimental = {
@@ -46,19 +47,34 @@ M.config = function()
     ["vim-dadbod-completion"] = "𝓐",
   }
   if lvim.builtin.sell_your_soul_to_devil then
-    vim.g.copilot_no_tab_map = true
-    vim.g.copilot_assume_mapped = true
-    vim.g.copilot_tab_fallback = ""
+    lvim.keys.insert_mode["<c-h>"] = { [[copilot#Accept("\<CR>")]], { expr = true, script = true } }
     local cmp = require "cmp"
-    lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
-      cmp.mapping.abort()
-      local copilot_keys = vim.fn["copilot#Accept"]()
-      if copilot_keys ~= "" then
-        vim.api.nvim_feedkeys(copilot_keys, "i", true)
-      else
-        fallback()
-      end
+    lvim.builtin.cmp.mapping["<Tab>"] = cmp.mapping(M.tab, { "i", "c" })
+    lvim.builtin.cmp.mapping["<S-Tab>"] = cmp.mapping(M.shift_tab, { "i", "c" })
+  end
+
+  -- Comment
+  -- =========================================
+  -- integrate with nvim-ts-context-commentstring
+  lvim.builtin.comment.pre_hook = function(ctx)
+    if not vim.tbl_contains({ "typescript", "typescriptreact" }, vim.bo.ft) then
+      return
     end
+
+    local comment_utils = require "Comment.utils"
+    local type = ctx.ctype == comment_utils.ctype.line and "__default" or "__multiline"
+
+    local location
+    if ctx.ctype == comment_utils.ctype.block then
+      location = require("ts_context_commentstring.utils").get_cursor_location()
+    elseif ctx.cmotion == comment_utils.cmotion.v or ctx.cmotion == comment_utils.cmotion.V then
+      location = require("ts_context_commentstring.utils").get_visual_start_location()
+    end
+
+    return require("ts_context_commentstring.internal").calculate_commentstring {
+      key = type,
+      location = location,
+    }
   end
 
   -- Dashboard
@@ -107,7 +123,8 @@ M.config = function()
   -- =========================================
   lvim.builtin.treesitter.context_commentstring.enable = true
   lvim.builtin.treesitter.ensure_installed = "maintained"
-  lvim.builtin.treesitter.highlight.disable = {}
+  lvim.builtin.treesitter.highlight.disable = { "org" }
+  lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
   lvim.builtin.treesitter.ignore_install = { "haskell" }
   lvim.builtin.treesitter.incremental_selection = {
     enable = true,
@@ -144,6 +161,16 @@ M.config = function()
         files = { "src/parser.c", "src/scanner.cc" },
       },
     }
+    if lvim.builtin.orgmode.active then
+      parser_config.org = {
+        install_info = {
+          url = "https://github.com/milisims/tree-sitter-org",
+          revision = "main",
+          files = { "src/parser.c", "src/scanner.cc" },
+        },
+        filetype = "org",
+      }
+    end
   end
 
   -- Telescope
@@ -199,6 +226,9 @@ M.config = function()
     end,
     find_command = { "fd", "--type=file", "--hidden", "--smart-case" },
   }
+  lvim.builtin.telescope.on_config_done = function(telescope)
+    telescope.load_extension "file_create"
+  end
 
   -- Terminal
   -- =========================================
@@ -235,34 +265,6 @@ M.config = function()
 
   -- ETC
   -- =========================================
-  local _time = os.date "*t"
-  if _time.hour >= 21 and _time.hour <= 24 then
-    lvim.colorscheme = "onedarker"
-  end
-
-  -- override lsp rename handler
-  if lvim.builtin.fancy_rename then
-    vim.lsp.handlers["textDocument/rename"] = function(err, result)
-      if err then
-        vim.notify(("Error running lsp query 'rename': " .. err), vim.log.levels.ERROR)
-      end
-      if result and result.changes then
-        local msg = ""
-        for f, c in pairs(result.changes) do
-          local new = c[1].newText
-          msg = msg .. string.format("%d changes -> %s", #c, f:gsub("file://", ""):gsub(vim.fn.getcwd(), ".")) .. "\n"
-          msg = msg:sub(1, #msg - 1)
-          vim.notify(
-            msg,
-            vim.log.levels.INFO,
-            { title = string.format("Rename: %s -> %s", vim.fn.expand "<cword>", new) }
-          )
-        end
-      end
-      vim.lsp.util.apply_workspace_edit(result)
-    end
-  end
-
   --   if lvim.builtin.lastplace.active == false then
   --     -- go to last loc when opening a buffer
   --     vim.cmd [[
@@ -330,6 +332,49 @@ function M.lsp_rename()
     "<cmd>stopinsert | lua require('user.builtin').rename(" .. name .. "," .. win .. ")<CR>",
     opts
   )
+end
+
+function M.tab(fallback)
+  local methods = require("lvim.core.cmp").methods
+  local cmp = require "cmp"
+  local luasnip = require "luasnip"
+  local copilot_keys = vim.fn["copilot#Accept"]()
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif vim.api.nvim_get_mode().mode == "c" then
+    fallback()
+  elseif copilot_keys ~= "" then -- prioritise copilot over snippets
+    -- Copilot keys do not need to be wrapped in termcodes
+    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  elseif luasnip.expandable() then
+    luasnip.expand()
+  elseif methods.jumpable() then
+    luasnip.jump(1)
+  elseif methods.check_backspace() then
+    fallback()
+  else
+    methods.feedkeys("<Plug>(Tabout)", "")
+  end
+end
+
+function M.shift_tab(fallback)
+  local methods = require("lvim.core.cmp").methods
+  local luasnip = require "luasnip"
+  local cmp = require "cmp"
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif vim.api.nvim_get_mode().mode == "c" then
+    fallback()
+  elseif methods.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if copilot_keys ~= "" then
+      methods.feedkeys(copilot_keys, "i")
+    else
+      methods.feedkeys("<Plug>(Tabout)", "")
+    end
+  end
 end
 
 return M

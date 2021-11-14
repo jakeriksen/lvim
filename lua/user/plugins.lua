@@ -19,9 +19,10 @@ M.config = function()
       end,
     },
     {
-      "Pocco81/Catppuccino.nvim",
+      "rose-pine/neovim",
+      as = "rose-pine",
       config = function()
-        require("user.theme").catppuccino()
+        require("user.theme").rose_pine()
       end,
       cond = function()
         local _time = os.date "*t"
@@ -80,9 +81,14 @@ M.config = function()
     },
     {
       "folke/trouble.nvim",
-      requires = "kyazdani42/nvim-web-devicons",
       config = function()
-        require("trouble").setup()
+        require("trouble").setup {
+          auto_open = true,
+          auto_close = true,
+          padding = false,
+          height = 10,
+          use_lsp_diagnostic_signs = true,
+        }
       end,
       cmd = "Trouble",
     },
@@ -123,6 +129,8 @@ M.config = function()
           sort = true,
         }
       end,
+      opt = true,
+      event = "InsertEnter",
       disable = not lvim.builtin.tabnine.active,
     },
     {
@@ -210,6 +218,7 @@ M.config = function()
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
       "kristijanhusak/orgmode.nvim",
+      keys = { "go", "gC" },
       ft = { "org" },
       config = function()
         require("user.orgmode").setup()
@@ -221,9 +230,10 @@ M.config = function()
       config = function()
         require("neogen").setup {
           enabled = true,
+          jump_map = "<C-,>",
         }
       end,
-      ft = { "lua", "python", "javascript", "typescriptreact", "c", "cpp", "go" },
+      ft = { "lua", "python", "javascript", "typescriptreact", "c", "cpp", "go", "java" },
       event = "InsertEnter",
       requires = "nvim-treesitter/nvim-treesitter",
     },
@@ -361,7 +371,9 @@ M.config = function()
     {
       "karb94/neoscroll.nvim",
       config = function()
-        require("neoscroll").setup()
+        require("neoscroll").setup {
+          easing_function = "quadratic",
+        }
       end,
       event = "BufRead",
       disable = not lvim.builtin.neoscroll.active,
@@ -371,6 +383,18 @@ M.config = function()
     },
     {
       "github/copilot.vim",
+      config = function()
+        vim.g.copilot_no_tab_map = true
+        vim.g.copilot_assume_mapped = true
+        vim.g.copilot_tab_fallback = ""
+        vim.g.copilot_filetypes = {
+          ["*"] = true,
+          markdown = false,
+          dart = false,
+          gitcommit = false,
+          NeogitCommitMessage = false,
+        }
+      end,
       disable = not lvim.builtin.sell_your_soul_to_devil,
     },
     {
@@ -438,6 +462,52 @@ M.config = function()
           },
         }
       end,
+    },
+    {
+      "Nguyen-Hoang-Nam/nvim-mini-file-icons",
+      disable = lvim.builtin.nvim_web_devicons == nil,
+    },
+    {
+      "nvim-telescope/telescope-live-grep-raw.nvim",
+    },
+    {
+      "filipdutescu/renamer.nvim",
+      config = function()
+        require("renamer").setup {
+          title = "Rename",
+        }
+      end,
+      disable = not lvim.builtin.fancy_rename.active,
+    },
+    {
+      "windwp/floatline.nvim",
+      config = function()
+        require("floatline").setup()
+      end,
+      disable = not lvim.builtin.global_status_line.active,
+    },
+    {
+      "luukvbaal/stabilize.nvim",
+      config = function()
+        require("stabilize").setup { forcemark = "f", nested = "QuickFixCmdPost,User LspDiagnosticsChanged" }
+      end,
+      disable = not lvim.builtin.global_status_line.active,
+    },
+    { "mtdl9/vim-log-highlighting", ft = { "text", "log" } },
+    {
+      "yamatsum/nvim-cursorline",
+      opt = true,
+      event = "BufWinEnter",
+      disable = not lvim.builtin.cursorline.active,
+    },
+    {
+      "abecodes/tabout.nvim",
+      wants = { "nvim-treesitter" },
+      after = { "nvim-cmp" },
+      config = function()
+        require("user.tabout").config()
+      end,
+      disable = not lvim.builtin.sell_your_soul_to_devil,
     },
   }
 end

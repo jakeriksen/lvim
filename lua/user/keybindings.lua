@@ -21,10 +21,17 @@ end
 M.config = function()
   -- Additional keybindings
   -- =========================================
+  lvim.keys.insert_mode["<A-a>"] = "<ESC>ggVG<CR>"
   lvim.keys.insert_mode["jk"] = "<ESC>:w<CR>"
   lvim.keys.insert_mode["<C-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
   lvim.keys.insert_mode["<C-l>"] = "<C-o>$<cmd>silent! LuaSnipUnlinkCurrent<CR>"
   lvim.keys.insert_mode["<C-j>"] = "<C-o>o<cmd>silent! LuaSnipUnlinkCurrent<CR>"
+  lvim.keys.normal_mode["]d"] =
+    "<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = lvim.lsp.popup_border}})<cr>"
+  lvim.keys.normal_mode["[d"] =
+    "<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = lvim.lsp.popup_border}})<cr>"
+  lvim.keys.normal_mode["<A-a>"] = "<C-a>"
+  lvim.keys.normal_mode["<A-x>"] = "<C-x>"
   lvim.keys.normal_mode["<C-n>i"] = { "<C-i>", { noremap = true } }
   if vim.fn.has "mac" == 1 then
     lvim.keys.normal_mode["gx"] =
@@ -55,7 +62,9 @@ M.config = function()
     lvim.keys.normal_mode["ce"] = "<cmd>lua require('harpoon.term').sendCommand(1, 2)<CR>"
   end
   lvim.keys.visual_mode["p"] = [["_dP]]
+  lvim.keys.visual_mode["<leader>lr"] = "<Cmd>lua require('renamer').rename()<CR>"
   lvim.keys.visual_mode["<leader>st"] = "<Cmd>lua require('user.telescope').grep_string_visual()<CR>"
+  lvim.keys.visual_mode["<leader>lr"] = "<Cmd>lua require('renamer').rename()<CR>"
 
   -- WhichKey keybindings
   -- =========================================
@@ -133,7 +142,7 @@ M.config = function()
     }
   end
   if lvim.builtin.fancy_rename then
-    lvim.builtin.which_key.mappings["l"]["r"] = { "<cmd>lua require('user.builtin').lsp_rename()<cr>", "Rename" }
+    lvim.builtin.which_key.mappings["l"]["r"] = { "<cmd>lua require('renamer').rename()<cr>", "Rename" }
   end
   lvim.builtin.which_key.mappings["l"]["f"] = {
     "<cmd>lua vim.lsp.buf.formatting_seq_sync()<cr>",
@@ -156,7 +165,9 @@ M.config = function()
     name = "Neogen",
     c = { "<cmd>lua require('neogen').generate({ type = 'class'})<CR>", "Class Documentation" },
     f = { "<cmd>lua require('neogen').generate({ type = 'func'})<CR>", "Function Documentation" },
+    t = { "<cmd>lua require('neogen').generate({ type = 'type'})<CR>", "Type Documentation" },
   }
+  lvim.builtin.which_key.mappings["N"] = { "<cmd>Telescope file_create<CR>", "Create new file" }
   lvim.builtin.which_key.mappings["o"] = { "<cmd>SymbolsOutline<cr>", "Symbol Outline" }
   lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
   lvim.builtin.which_key.mappings["R"] = {
@@ -167,7 +178,10 @@ M.config = function()
   }
 
   lvim.builtin.which_key.mappings["se"] = { "<cmd>lua require('user.telescope').file_browser()<cr>", "File Browser" }
-  lvim.builtin.which_key.mappings["ss"] = { "<cmd>lua require('user.telescope').find_string()<cr>", "String" }
+  lvim.builtin.which_key.mappings["ss"] = {
+    "<cmd>lua require('telescope').extensions.live_grep_raw.live_grep_raw()<cr>",
+    "String",
+  }
   lvim.builtin.which_key.mappings["r"] = "Run"
   lvim.builtin.which_key.mappings["T"] = {
     name = "Test",
@@ -186,6 +200,16 @@ M.config = function()
     w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnosticss" },
   }
   lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", "Zen" }
+
+  -- Navigate merge conflict markers
+  local whk_status, whk = pcall(require, "which-key")
+  if not whk_status then
+    return
+  end
+  whk.register {
+    ["]n"] = { "[[:call search('^(@@ .* @@|[<=>|]{7}[<=>|]@!)', 'W')<cr>]]", "next merge conflict" },
+    ["[n"] = { "[[:call search('^(@@ .* @@|[<=>|]{7}[<=>|]@!)', 'bW')<cr>]]", "prev merge conflict" },
+  }
 end
 
 return M

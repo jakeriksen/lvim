@@ -4,7 +4,7 @@ Do not use as is, use it as a source of inspiration.
 
 I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly 😅
 
-<img width="1903" alt="Screen Shot 2021-10-31 at 2 53 38 PM" src="https://user-images.githubusercontent.com/10992695/139580682-381c0d8f-efef-4bd3-9235-bc3c76c5feda.png">
+<img width="1911" alt="Screen Shot 2021-11-08 at 2 19 27 PM" src="https://user-images.githubusercontent.com/10992695/140749733-13085cb2-90fd-4d09-8974-3226795864f8.png">
 
 <details open>
   <summary>
@@ -15,6 +15,7 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 <!-- vim-markdown-toc GFM -->
 
 - [Features](#features)
+- [Theme](#theme)
 - [Customization](#features)
 - [Screenshot](#screenshot)
 - [Install](#install)
@@ -38,13 +39,24 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
   - [Plugin: Neogen](#plugin-neogen)
   - [Plugin: Persistence](#plugin-persistence)
   - [Plugin: Bufferline](#plugin-bufferline)
+  - [Plugin: Trouble](#plugin-trouble)
 
 <!-- vim-markdown-toc -->
 </details>
 
-## Features
+## Theme
 
-- TBD
+Themes are automatically changed based on time of the day:
+
+| Theme                                                                              |     Time of the day      |
+| ---------------------------------------------------------------------------------- | :----------------------: |
+| [zephyr](https://github.com/abzcoding/zephyr-nvim)                                 |        [5am, 8am)        |
+| [rose-pine](https://github.com/rose-pine/neovim)                                   |       [8am, 11am)        |
+| [tokyonight](https://github.com/folke/tokyonight)                                  | [12am, 5am), [11am, 5pm) |
+| [doom-one](https://github.com/abzcoding/doom-one.nvim/tree/feat/nvim-cmp-floating) |        [5pm, 9pm)        |
+| onedarker                                                                          |      [9pm, 11:59pm]      |
+
+You can change this in [plugins.lua](./lua/user/plugins.lua) and [lualine.lua](./lua/user/lualine.lua)
 
 ## Customization
 
@@ -267,7 +279,6 @@ _rename using `<leader>lr`_
 
 <img width="470" alt="Screen Shot 2021-11-04 at 3 54 15 PM" src="https://user-images.githubusercontent.com/10992695/140312997-77a30d8e-3c1a-413a-920e-971474c6f92e.png">
 
-
 #### Builtin Terminal
 
 <img width="1913" alt="Screen Shot 2021-10-18 at 6 07 13 PM" src="https://user-images.githubusercontent.com/10992695/137752572-87a5792f-87a3-4131-8a1b-4ba786b83086.png">
@@ -310,7 +321,7 @@ _Symbols Outline_
 
 - [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
-- [Catppuccino Theme](https://github.com/Pocco81/Catppuccino.nvim)
+- [Rose Pine Theme](https://github.com/rose-pine/neovim)
 - [Zephyr Theme](https://github.com/abzcoding/zephyr-nvim)
 - [LSP Signature](https://github.com/ray-x/lsp_signature.nvim/)
 - [Todo Comments](https://github.com/folke/todo-comments.nvim)
@@ -333,6 +344,7 @@ _Symbols Outline_
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Dependency-assist.nvim](https://github.com/akinsho/dependency-assist.nvim)
+- [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
 
 ### Optional Plugins
 
@@ -354,6 +366,11 @@ _Symbols Outline_
 - [Neoscroll](https://github.com/karb94/neoscroll.nvim)
 - [Copilot](https://github.com/github/copilot.vim)
 - [Harpoon](https://github.com/ThePrimeagen/harpoon)
+- [Renamer](https://github.com/filipdutescu/renamer.nvim)
+- [Floatline](https://github.com/windwp/floatline.nvim)
+- [Stabilize](https://github.com/luukvbaal/stabilize.nvim)
+- [vim-log-highlighting](https://github.com/mtdl9/vim-log-highlighting)
+- [nvim-cursorline](https://github.com/yamatsum/nvim-cursorline)
 
 </details>
 
@@ -362,12 +379,17 @@ _Symbols Outline_
 <details>
   <summary><strong>Structure</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
+- [after/](./after) - Stuff that happens after
+  - [ftplugin/](./after/ftplugin) - Language specific settings
+  - [syntax/](./after/syntax) - Custom syntax for languages
 - [ftdetect/](./ftdetect) - Let neovim identify custom filetypes
 - [ftplugin/](./ftplugin) - Language specific custom settings
 - [lsp-settings](./lsp-settings) - Custom lang server settings
 - [lua/](./lua) - Lua plugin configurations
+  - [lvim/](./lua/lvim) - Custom provider settings
+    - [providers/](./lua/lvim/lsp/providers) - Custom installation and configuration of language servers
+  - [telescope/](./lua/telescope/_extensions) - Telescope extensions
   - [user/](./lua/user) - User specific settings
-    - [providers/](./lua/user/providers) - Custom installation and configuration of language servers
     - [autocommands.lua](./lua/user/autocommands.lua) - user defined autocommands
     - [builtin.lua](./lua/user/builtin.lua) - change internal lunarvim settings
     - [keybindings.lua](./lua/user/keybindings.lua) - user defined keybindings
@@ -410,12 +432,15 @@ Note that,
 
 ### Motion
 
-| Key          | Mode | Action                    | Plugin or Mapping             |
-| ------------ | :--: | ------------------------- | ----------------------------- |
-| <kbd>f</kbd> |  𝐍   | find next chacharacter    | <small>HopChar1LineAC</small> |
-| <kbd>F</kbd> |  𝐍   | find prprevious character | <small>HopChar1LineBC</small> |
-| <kbd>s</kbd> |  𝐍   | find chacharacter         | <small>HopChar2</small>       |
-| <kbd>F</kbd> |  𝐍   | find word                 | <small>HopWord</small>        |
+| Key                         | Mode | Action                    | Plugin or Mapping             |
+| --------------------------- | :--: | ------------------------- | ----------------------------- |
+| <kbd>f</kbd>                |  𝐍   | find next chacharacter    | <small>HopChar1LineAC</small> |
+| <kbd>F</kbd>                |  𝐍   | find prprevious character | <small>HopChar1LineBC</small> |
+| <kbd>s</kbd>                |  𝐍   | find chacharacter         | <small>HopChar2</small>       |
+| <kbd>F</kbd>                |  𝐍   | find word                 | <small>HopWord</small>        |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐈   | select all                | <small>ggVG</small>           |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐍   | increment number          | <small>C-A</small>            |
+| <kbd>Alt</kbd>+<kbd>x</kbd> |  𝐍   | decrement number          | <small>C-X</small>            |
 
 ### LSP
 
@@ -424,6 +449,8 @@ Note that,
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    |  𝐈   | Navigate completion-menu            |
 | <kbd>Enter</kbd>                                                                         |  𝐈   | Select completion or expand snippet |
 | <kbd>Up</kbd>or <kbd>Down</kbd>                                                          |  𝐈   | Movement in completion pop-up       |
+| <kbd>]</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Next diagnostic                     |
+| <kbd>[</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Previous diagnostic                 |
 | <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>j</kbd> or <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>k</kbd> |  𝐍   | Next/previous LSP diagnostic        |
 | <kbd>Ctrl</kbd>+<kbd>e</kbd>                                                             |  𝐈   | Close pop-up                        |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    | 𝐈 𝐒  | Navigate snippet placeholders       |
@@ -469,7 +496,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>k</kbd> |  𝐍   | Keymap search            |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>M</kbd> |  𝐍   | Man Pages search         |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>r</kbd> |  𝐍   | Register search          |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep string under cursor |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐕   | Grep string under cursor |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep raw                 |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>b</kbd> |  𝐍   | Builtin search           |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>f</kbd> |  𝐍   | Current buffer search    |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>g</kbd> |  𝐍   | Git files search         |
@@ -515,6 +543,16 @@ Note that,
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>b</kbd> |  𝐍   | toggle buffer groups |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | pick buffer          |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>1</kbd> |  𝐍   | goto buffer 1        |
+
+### Plugin: Trouble
+
+| Key                                        | Mode | Action                |
+| ------------------------------------------ | :--: | --------------------- |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>d</kbd> |  𝐍   | diagnostics           |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | definitions           |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>r</kbd> |  𝐍   | references            |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>t</kbd> |  𝐍   | todo                  |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>w</kbd> |  𝐍   | workspace diagnostics |
 
 </details>
 
