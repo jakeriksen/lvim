@@ -93,11 +93,19 @@ M.config = function()
       cmd = "Trouble",
     },
     {
-      "IndianBoy42/hop.nvim",
+      "ggandor/lightspeed.nvim",
+      config = function()
+        require("user.lightspeed").config()
+      end,
+      disable = lvim.builtin.motion_provider ~= "lightspeed",
+    },
+    {
+      "phaazon/hop.nvim",
       event = "BufRead",
       config = function()
         require("user.hop").config()
       end,
+      disable = lvim.builtin.motion_provider ~= "hop",
     },
     {
       "simrat39/symbols-outline.nvim",
