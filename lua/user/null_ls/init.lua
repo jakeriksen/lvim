@@ -11,6 +11,9 @@ M.config = function()
     return
   end
 
+  local custom_go_actions = require "user.null_ls.go"
+  local custom_md_hover = require "user.null_ls.markdown"
+
   -- you can either config null-ls itself
   nls.config {
     debounce = 150,
@@ -31,6 +34,9 @@ M.config = function()
       nls.builtins.diagnostics.luacheck,
       nls.builtins.diagnostics.vint,
       nls.builtins.diagnostics.chktex,
+      custom_go_actions.gomodifytags,
+      custom_go_actions.gostructhelper,
+      custom_md_hover.dictionary,
     },
   }
 
