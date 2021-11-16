@@ -339,6 +339,7 @@ M.config = function()
     },
     {
       "wakatime/vim-wakatime",
+      opt = true,
       },
     {
       "gelguy/wilder.nvim",

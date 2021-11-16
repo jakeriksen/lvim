@@ -13,7 +13,7 @@ end
 
 -- Customization
 -- =========================================
-lvim.builtin.sell_your_soul_to_devil = true -- if you want microsoft to abuse your soul
+lvim.builtin.project.show_hiddens = true
 lvim.builtin.lastplace = { active = false } -- change to false if you are jumping to future
 lvim.builtin.tabnine = { active = true } -- change to false if you don't like tabnine
 lvim.builtin.persistence = { active = true } -- change to false if you don't want persistence
@@ -42,7 +42,7 @@ lvim.builtin.global_status_line = { active = true } -- use the global status lin
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
 local user = os.getenv "USER"
-if user and user == "abz" then
+if user and user == "uzaaft" then
   lvim.builtin.nvim_web_devicons = { active = false }
   lvim.builtin.sell_your_soul_to_devil = true
   lvim.lsp.document_highlight = false
