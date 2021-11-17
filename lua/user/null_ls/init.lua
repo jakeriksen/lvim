@@ -27,7 +27,6 @@ M.config = function()
       nls.builtins.formatting.sqlformat,
       nls.builtins.formatting.terraform_fmt,
       nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-ci" } },
-      nls.builtins.formatting.rustfmt,
       nls.builtins.diagnostics.hadolint,
       nls.builtins.diagnostics.eslint_d,
       nls.builtins.diagnostics.shellcheck,
