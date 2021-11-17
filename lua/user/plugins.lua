@@ -340,7 +340,8 @@ M.config = function()
     {
       "wakatime/vim-wakatime",
       opt = true,
-      },
+      event = "InsertEnter",
+    },
     {
       "gelguy/wilder.nvim",
       -- event = { "CursorHold", "CmdlineEnter" },
