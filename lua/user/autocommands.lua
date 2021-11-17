@@ -14,12 +14,6 @@ augroup END
   end
 
   vim.cmd [[
-" fix the luasnip weird issue
-augroup CustomLuaSnip
-	au!
-	au TextChanged,InsertLeave * lua require'luasnip'.unlink_current_if_deleted()
-augroup end
-
 " disable syntax highlighting in big files
 function! DisableSyntaxTreesitter()
     echo("Big file, disabling syntax, treesitter and folding")
@@ -52,6 +46,21 @@ augroup END
       autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
     augroup END
     ]]
+  end
+
+  if lvim.builtin.hlslens.active then
+    vim.cmd [[
+function! Hls_coloring()
+  hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline
+  hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline
+  hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic
+  hi HlSearchLens guibg=None guifg=#bb9af7 gui=underline
+endfunction
+augroup hlsColor
+  autocmd!
+  autocmd BufReadPost * exec Hls_coloring()
+augroup END
+  ]]
   end
 
   lvim.autocommands.custom_groups = {
@@ -126,7 +135,7 @@ augroup END
     {
       "Filetype",
       "rust",
-      "nnoremap <leader>r <cmd>lua require('lvim.core.terminal')._exec_toggle('cargo run;read')<CR>",
+      "nnoremap <leader>r <cmd>lua require('rust-tools.runnables').runnables()<CR>",
     },
     {
       "Filetype",
@@ -137,6 +146,14 @@ augroup END
     { "Filetype", "rust", "nnoremap <leader>lH <Cmd>RustToggleInlayHints<CR>" },
     { "Filetype", "rust", "nnoremap <leader>le <Cmd>RustRunnables<CR>" },
     { "Filetype", "rust", "nnoremap <leader>lh <Cmd>RustHoverActions<CR>" },
+    { "Filetype", "rust", "nnoremap <leader>lc <Cmd>RustOpenCargo<CR>" },
+    { "Filetype", "rust", "nnoremap gA <Cmd>RustHoverActions<CR>" },
+
+    -- typescript
+    { "Filetype", "typescript,typescriptreact", "nnoremap gA <Cmd>TSLspImportAll<CR>" },
+    { "Filetype", "typescript,typescriptreact", "nnoremap gr <Cmd>TSLspRenameFile<CR>" },
+    { "Filetype", "typescript,typescriptreact", "nnoremap gS <Cmd>TSLspOrganize<CR>" },
+
     -- uncomment the following if you want to show diagnostics on hover
     -- { "CursorHold", "*", "lua vim.lsp.diagnostic.show_line_diagnostics({ show_header = false, border = 'single' })" },
   }
