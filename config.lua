@@ -41,6 +41,7 @@ lvim.builtin.remote_dev = { active = false } -- enable/disable remote developmen
 lvim.builtin.global_status_line = { active = true } -- use the global status line
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
+lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 local user = os.getenv "USER"
 if user and user == "abz" then
   lvim.builtin.nvim_web_devicons = { active = false }

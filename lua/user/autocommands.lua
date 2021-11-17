@@ -14,12 +14,6 @@ augroup END
   end
 
   vim.cmd [[
-" fix the luasnip weird issue
-augroup CustomLuaSnip
-	au!
-	au TextChanged,InsertLeave * lua require'luasnip'.unlink_current_if_deleted()
-augroup end
-
 " disable syntax highlighting in big files
 function! DisableSyntaxTreesitter()
     echo("Big file, disabling syntax, treesitter and folding")
@@ -52,6 +46,21 @@ augroup END
       autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
     augroup END
     ]]
+  end
+
+  if lvim.builtin.hlslens.active then
+    vim.cmd [[
+function! Hls_coloring()
+  hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline
+  hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline
+  hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic
+  hi HlSearchLens guibg=None guifg=#bb9af7 gui=underline
+endfunction
+augroup hlsColor
+  autocmd!
+  autocmd BufReadPost * exec Hls_coloring()
+augroup END
+  ]]
   end
 
   lvim.autocommands.custom_groups = {
