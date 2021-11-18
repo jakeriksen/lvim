@@ -475,6 +475,15 @@ M.config = function()
     },
     {
       "Nguyen-Hoang-Nam/nvim-mini-file-icons",
+      config = function()
+        require("nvim-web-devicons").set_icon {
+          rs = {
+            icon = "",
+            color = "#d28445",
+            name = "Rust",
+          },
+        }
+      end,
       disable = lvim.builtin.nvim_web_devicons == nil,
     },
     {
