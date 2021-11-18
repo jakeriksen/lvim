@@ -238,7 +238,6 @@ M.config = function()
       config = function()
         require("neogen").setup {
           enabled = true,
-          jump_map = "<C-,>",
         }
       end,
       ft = { "lua", "python", "javascript", "typescriptreact", "c", "cpp", "go", "java" },
@@ -543,6 +542,11 @@ M.config = function()
       end,
       event = "BufRead",
       ft = { "rust", "go" },
+    },
+    {
+      "chrisbra/csv.vim",
+      ft = { "csv" },
+      disable = not lvim.builtin.csv_support,
     },
   }
 end

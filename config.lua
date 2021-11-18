@@ -42,6 +42,7 @@ lvim.builtin.global_status_line = { active = true } -- use the global status lin
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
 lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
+lvim.builtin.csv_support = true -- enable/disable csv support
 local user = os.getenv "USER"
 if user and user == "uzaaft" then
   lvim.builtin.nvim_web_devicons = { active = false }
