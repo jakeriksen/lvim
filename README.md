@@ -6,9 +6,6 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly ðŸ
 
 ![141789968-ed61958c-9154-4774-b2e2-dfabe48d9660](https://user-images.githubusercontent.com/10992695/141791560-5062246a-056c-4a73-afa7-3152e6ad396e.jpg)
 
-
-
-
 <details open>
   <summary>
     <strong>Table of Contents</strong>
@@ -358,6 +355,7 @@ _Symbols Outline_
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Dependency-assist.nvim](https://github.com/akinsho/dependency-assist.nvim)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
+- [nvim-lightbulb](https://github.com/kosayoda/nvim-lightbulb)
 
 ### Optional Plugins
 
@@ -411,6 +409,7 @@ _Symbols Outline_
     - [builtin.lua](./lua/user/builtin.lua) - change internal lunarvim settings
     - [keybindings.lua](./lua/user/keybindings.lua) - user defined keybindings
     - [plugins.lua](./lua/user/plugins.lua) - list of installed plugins
+    - [lsp_kind.lua](./lua/user/lsp_kind.lua) - all the icons and lsp ui goodies are here
     - [theme.lua](./lua/user/theme.lua) - customized themes
 - [config.lua](./config.lua) - Main customization point for settings
 - [snippets/](./snippets) - Personal code snippets
