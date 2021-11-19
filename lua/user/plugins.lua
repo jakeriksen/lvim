@@ -538,7 +538,10 @@ M.config = function()
     {
       "kosayoda/nvim-lightbulb",
       config = function()
-        vim.fn.sign_define("LightBulbSign", { text = require("user.lsp_kind").icons.code_action, texthl = "DiagnosticInfo" })
+        vim.fn.sign_define(
+          "LightBulbSign",
+          { text = require("user.lsp_kind").icons.code_action, texthl = "DiagnosticInfo" }
+        )
       end,
       event = "BufRead",
       ft = { "rust", "go" },
@@ -547,6 +550,18 @@ M.config = function()
       "chrisbra/csv.vim",
       ft = { "csv" },
       disable = not lvim.builtin.csv_support,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      after = "nvim-treesitter",
+    },
+    {
+      "sidebar-nvim/sidebar.nvim",
+      config = function()
+        require("user.sidebar").config()
+      end,
+      event = "BufRead",
+      disable = not lvim.builtin.sidebar.active,
     },
   }
 end
