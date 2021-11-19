@@ -37,7 +37,6 @@ lvim.builtin.remote_dev = { active = true } -- enable/disable remote development
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
 lvim.builtin.nvim_web_devicons = { active = false }
-lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.builtin.global_status_line = { active = true } -- use the global status line
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
